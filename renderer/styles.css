@@ -608,6 +608,10 @@ body {
   pointer-events: none;
 }
 
+.highlight-overlay.calibration-active {
+  pointer-events: auto;
+}
+
 .highlight-box {
   position: absolute;
   border: 3px solid var(--accent-primary);
@@ -800,4 +804,618 @@ body {
 
 .walkthrough-actions .btn {
   flex: 1;
+}
+
+/* ============ CALIBRATION MODE ============ */
+.calibration-box {
+  cursor: move;
+  border: 2px solid rgba(74, 222, 128, 0.8);
+  background: rgba(74, 222, 128, 0.15);
+  animation: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.calibration-box:hover {
+  border-color: var(--accent-primary);
+  background: rgba(233, 69, 96, 0.2);
+  z-index: 10;
+}
+
+.calibration-box.selected {
+  border-color: var(--accent-primary);
+  background: rgba(233, 69, 96, 0.3);
+  box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+  z-index: 20;
+}
+
+.calibration-label {
+  font-size: 8px;
+  color: white;
+  text-shadow: 0 0 3px black, 0 0 3px black;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px;
+  pointer-events: none;
+}
+
+.resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  background: var(--accent-primary);
+  cursor: se-resize;
+  border-radius: 2px 0 0 0;
+}
+
+.resize-handle:hover {
+  background: #ff6b7a;
+}
+
+/* ============ EDIT MODE CONTROLS ============ */
+.edit-mode-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bg-tertiary);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.edit-control-form .form-group {
+  margin-bottom: 12px;
+}
+
+.edit-control-form label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.edit-control-form input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.edit-control-form input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.edit-control-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+.add-control-section {
+  border-top: 1px solid var(--border-color);
+  padding-top: 16px;
+}
+
+.add-hint {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.new-control-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.new-control-form .form-group {
+  margin-bottom: 0;
+}
+
+.new-control-form label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.new-control-form input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.edit-type-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-type-btn {
+  flex: 1;
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.edit-type-btn:hover {
+  border-color: var(--accent-primary);
+}
+
+.edit-type-btn.active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+}
+
+.new-control-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Placing indicator for new controls in edit mode */
+.placing-preview {
+  position: absolute;
+  border: 2px dashed #ffc107;
+  background: rgba(255, 193, 7, 0.2);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* Card actions in controller selection */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.card-actions .btn {
+  flex: 1;
+  font-size: 11px;
+  padding: 6px 8px;
+}
+
+/* Prevent card click when clicking buttons */
+.controller-type-card .card-actions {
+  position: relative;
+  z-index: 5;
+}
+
+/* ============ CUSTOM CONTROLLER CREATOR ============ */
+.create-custom-section {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 24px;
+}
+
+.create-custom-card {
+  background: var(--bg-secondary);
+  border: 2px dashed var(--accent-primary);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.create-custom-card:hover {
+  background: var(--bg-tertiary);
+  border-style: solid;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(233, 69, 96, 0.2);
+}
+
+.create-custom-icon {
+  font-size: 48px;
+  color: var(--accent-primary);
+  margin-bottom: 12px;
+}
+
+.create-custom-card .card-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.create-custom-card .card-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Custom Creator Layout */
+.custom-creator {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.custom-creator-layout {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+  min-height: 0;
+}
+
+.custom-creator-image-panel {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.custom-image-container {
+  flex: 1;
+  position: relative;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.upload-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.upload-placeholder:hover {
+  background: var(--bg-tertiary);
+}
+
+.upload-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.upload-placeholder p {
+  color: var(--text-secondary);
+  margin: 4px 0;
+}
+
+.upload-hint {
+  font-size: 12px;
+}
+
+#custom-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.custom-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.custom-overlay.placing {
+  cursor: crosshair;
+  pointer-events: auto;
+}
+
+.custom-image-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Custom Creator Panel */
+.custom-creator-panel {
+  flex: 1;
+  min-width: 350px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  overflow: hidden;
+}
+
+.custom-creator-header h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-group label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.form-group input[type="text"] {
+  padding: 8px 12px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.form-group input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.custom-instructions {
+  background: var(--bg-tertiary);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.custom-instructions h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.custom-instructions ol {
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding-left: 20px;
+  margin: 0;
+}
+
+.custom-instructions li {
+  margin-bottom: 4px;
+}
+
+/* Control Form */
+.custom-control-form {
+  background: var(--bg-tertiary);
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid var(--accent-primary);
+}
+
+.custom-control-form h3 {
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: var(--accent-primary);
+}
+
+.control-type-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.type-btn {
+  flex: 1;
+  padding: 8px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.type-btn:hover {
+  background: var(--bg-secondary);
+}
+
+.type-btn.active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+/* Controls List */
+.custom-controls-list {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.custom-controls-list h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.controls-list-items {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-tertiary);
+  border-radius: 8px;
+  padding: 8px;
+  min-height: 80px;
+  max-height: 200px;
+}
+
+.no-controls {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 12px;
+  padding: 20px;
+}
+
+.control-list-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.control-list-item:last-child {
+  margin-bottom: 0;
+}
+
+.control-list-item .control-type-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.control-list-item .control-type-badge.button {
+  background: var(--accent-primary);
+  color: white;
+}
+
+.control-list-item .control-type-badge.axis {
+  background: var(--axis-positive);
+  color: black;
+}
+
+.control-list-item .control-name {
+  flex: 1;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.control-list-item .control-delete {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 14px;
+}
+
+.control-list-item .control-delete:hover {
+  color: var(--accent-primary);
+}
+
+/* Custom Creator Actions */
+.custom-creator-actions {
+  display: flex;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.custom-creator-actions .btn {
+  flex: 1;
+}
+
+/* Custom Control Box (on image) */
+.custom-control-box {
+  position: absolute;
+  border: 2px solid var(--accent-primary);
+  background: rgba(233, 69, 96, 0.2);
+  cursor: move;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  min-height: 20px;
+}
+
+.custom-control-box:hover {
+  background: rgba(233, 69, 96, 0.3);
+  z-index: 10;
+}
+
+.custom-control-box.selected {
+  border-color: var(--success);
+  background: rgba(74, 222, 128, 0.3);
+  z-index: 20;
+}
+
+.custom-control-box.axis {
+  border-color: var(--axis-positive);
+  background: rgba(74, 222, 128, 0.2);
+}
+
+.custom-control-box .control-box-label {
+  font-size: 9px;
+  color: white;
+  text-shadow: 0 0 3px black, 0 0 3px black;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px;
+  pointer-events: none;
+}
+
+.custom-control-box .control-box-resize {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background: var(--accent-primary);
+  cursor: se-resize;
+}
+
+.custom-control-box.axis .control-box-resize {
+  background: var(--axis-positive);
+}
+
+/* Placing indicator */
+.placing-indicator {
+  position: absolute;
+  border: 2px dashed var(--accent-primary);
+  background: rgba(233, 69, 96, 0.3);
+  pointer-events: none;
 }

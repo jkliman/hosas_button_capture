@@ -82,8 +82,100 @@
         <h2>Select Controller Type</h2>
         <p class="subtitle">Choose your controller to start the mapping walkthrough</p>
 
+        <!-- Create Custom Controller Card -->
+        <div class="create-custom-section">
+          <div class="create-custom-card" id="create-custom-card">
+            <div class="create-custom-icon">+</div>
+            <div class="card-name">Create Custom Controller</div>
+            <div class="card-description">Upload an image and define your own buttons</div>
+          </div>
+        </div>
+
         <div class="controller-type-grid" id="controller-type-grid">
           <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Custom Controller Creator -->
+      <div class="custom-creator hidden" id="custom-creator">
+        <div class="custom-creator-layout">
+          <!-- Left: Image Upload and Button Placement -->
+          <div class="custom-creator-image-panel">
+            <div class="custom-image-container" id="custom-image-container">
+              <div class="upload-placeholder" id="upload-placeholder">
+                <div class="upload-icon">📷</div>
+                <p>Click to upload controller image</p>
+                <p class="upload-hint">Supports PNG, JPG, WebP</p>
+                <input type="file" id="custom-image-input" accept="image/*" hidden>
+              </div>
+              <img id="custom-image" src="" alt="Custom Controller" class="hidden">
+              <div class="custom-overlay" id="custom-overlay"></div>
+            </div>
+            <div class="custom-image-actions">
+              <button id="change-image-btn" class="btn btn-secondary btn-small hidden">Change Image</button>
+              <button id="clear-controls-btn" class="btn btn-secondary btn-small hidden">Clear All Controls</button>
+            </div>
+          </div>
+
+          <!-- Right: Control Creation Panel -->
+          <div class="custom-creator-panel">
+            <div class="custom-creator-header">
+              <h2>Create Custom Controller</h2>
+            </div>
+
+            <div class="custom-form">
+              <div class="form-group">
+                <label for="custom-controller-name">Controller Name</label>
+                <input type="text" id="custom-controller-name" placeholder="e.g., My Custom HOTAS">
+              </div>
+              <div class="form-group">
+                <label for="custom-controller-desc">Description</label>
+                <input type="text" id="custom-controller-desc" placeholder="e.g., Custom flight stick setup">
+              </div>
+            </div>
+
+            <div class="custom-instructions">
+              <h3>Adding Controls</h3>
+              <ol>
+                <li>Upload a controller image</li>
+                <li>Click on the image to place a control</li>
+                <li>Enter a name for the control</li>
+                <li>Select button or axis type</li>
+                <li>Drag to reposition, corners to resize</li>
+              </ol>
+            </div>
+
+            <div class="custom-control-form hidden" id="custom-control-form">
+              <h3>New Control</h3>
+              <div class="form-group">
+                <label for="control-label">Control Name</label>
+                <input type="text" id="control-label" placeholder="e.g., Fire Button, Throttle Axis">
+              </div>
+              <div class="form-group">
+                <label>Control Type</label>
+                <div class="control-type-btns">
+                  <button class="type-btn active" data-type="button">Button</button>
+                  <button class="type-btn" data-type="axis">Axis</button>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button id="add-control-btn" class="btn btn-primary btn-small">Add Control</button>
+                <button id="cancel-control-btn" class="btn btn-secondary btn-small">Cancel</button>
+              </div>
+            </div>
+
+            <div class="custom-controls-list" id="custom-controls-list">
+              <h3>Controls (<span id="controls-count">0</span>)</h3>
+              <div class="controls-list-items" id="controls-list-items">
+                <p class="no-controls">No controls added yet</p>
+              </div>
+            </div>
+
+            <div class="custom-creator-actions">
+              <button id="custom-cancel-btn" class="btn btn-secondary">Cancel</button>
+              <button id="custom-save-btn" class="btn btn-primary" disabled>Save & Start Walkthrough</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -129,6 +221,40 @@
 
             <div class="walkthrough-mapping" id="current-mapping">
               <!-- Shows current mapped value -->
+            </div>
+
+            <!-- Edit Mode Controls (hidden during walkthrough) -->
+            <div class="edit-mode-controls hidden" id="edit-mode-controls">
+              <div class="edit-control-form">
+                <div class="form-group">
+                  <label for="edit-control-name">Control Name</label>
+                  <input type="text" id="edit-control-name" placeholder="Enter control name">
+                </div>
+                <div class="edit-control-actions">
+                  <button id="rename-control-btn" class="btn btn-small btn-primary">Rename</button>
+                  <button id="delete-control-btn" class="btn btn-small btn-danger">Delete</button>
+                </div>
+              </div>
+              <div class="add-control-section">
+                <p class="add-hint">Click on the image to add a new control</p>
+                <div class="new-control-form hidden" id="new-control-form">
+                  <div class="form-group">
+                    <label for="new-control-name">New Control Name</label>
+                    <input type="text" id="new-control-name" placeholder="e.g., Fire Button">
+                  </div>
+                  <div class="form-group">
+                    <label>Type</label>
+                    <div class="edit-type-btns">
+                      <button class="edit-type-btn active" data-type="button">Button</button>
+                      <button class="edit-type-btn" data-type="axis">Axis</button>
+                    </div>
+                  </div>
+                  <div class="new-control-actions">
+                    <button id="confirm-new-control-btn" class="btn btn-small btn-primary">Add</button>
+                    <button id="cancel-new-control-btn" class="btn btn-small btn-secondary">Cancel</button>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="walkthrough-controls">
