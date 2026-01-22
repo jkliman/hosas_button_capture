@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gamepad Button Mapper</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <h1>Gamepad Button Mapper</h1>
+      <div class="mode-tabs">
+        <button class="mode-tab active" data-mode="live">Live Input</button>
+        <button class="mode-tab" data-mode="walkthrough">Controller Walkthrough</button>
+      </div>
+    </header>
+
+    <div class="controller-selector">
+      <label for="gamepad-select">Select Controller:</label>
+      <select id="gamepad-select">
+        <option value="">-- No controllers detected --</option>
+      </select>
+      <button id="refresh-btn" class="btn btn-secondary">Refresh</button>
+    </div>
+
+    <!-- ============ LIVE INPUT MODE ============ -->
+    <div class="mode-content" id="live-mode">
+      <div class="main-content">
+        <!-- Left Panel: Live Input Display -->
+        <div class="panel live-panel">
+          <div class="panel-header">
+            <h2>Live Input</h2>
+            <div class="last-pressed" id="last-pressed">
+              <span class="label">Last Pressed:</span>
+              <span class="value" id="last-pressed-value">None</span>
+            </div>
+          </div>
+
+          <div class="input-sections">
+            <!-- Buttons Section -->
+            <div class="input-section">
+              <h3>Buttons</h3>
+              <div class="button-grid" id="button-grid">
+                <p class="no-data">Connect a controller to see buttons</p>
+              </div>
+            </div>
+
+            <!-- Axes Section -->
+            <div class="input-section">
+              <h3>Axes</h3>
+              <div class="axis-list" id="axis-list">
+                <p class="no-data">Connect a controller to see axes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Panel: Event Log & Export -->
+        <div class="panel log-panel">
+          <div class="panel-header">
+            <h2>Event Log</h2>
+            <div class="log-controls">
+              <button id="clear-log-btn" class="btn btn-small">Clear</button>
+              <label class="checkbox-label">
+                <input type="checkbox" id="log-axes" />
+                Log Axes
+              </label>
+            </div>
+          </div>
+          <div class="event-log" id="event-log">
+            <p class="log-entry log-info">Waiting for controller input...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ WALKTHROUGH MODE ============ -->
+    <div class="mode-content hidden" id="walkthrough-mode">
+      <!-- Controller Selection for Walkthrough -->
+      <div class="walkthrough-setup" id="walkthrough-setup">
+        <h2>Select Controller Type</h2>
+        <p class="subtitle">Choose your controller to start the mapping walkthrough</p>
+
+        <div class="controller-type-grid" id="controller-type-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Active Walkthrough -->
+      <div class="walkthrough-active hidden" id="walkthrough-active">
+        <div class="walkthrough-layout">
+          <!-- Left: Controller Image with Highlights -->
+          <div class="walkthrough-image-panel">
+            <div class="controller-image-container" id="walkthrough-image-container">
+              <img id="walkthrough-image" src="" alt="Controller">
+              <div class="highlight-overlay" id="highlight-overlay"></div>
+            </div>
+          </div>
+
+          <!-- Right: Instructions and Progress -->
+          <div class="walkthrough-info-panel">
+            <div class="walkthrough-header">
+              <h2 id="walkthrough-controller-name">Controller</h2>
+              <div class="walkthrough-progress">
+                <span id="walkthrough-step">1</span> / <span id="walkthrough-total">0</span>
+              </div>
+            </div>
+
+            <div class="walkthrough-progress-bar">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <div class="walkthrough-instruction">
+              <div class="instruction-type" id="instruction-type">BUTTON</div>
+              <h3 class="instruction-label" id="instruction-label">Press this button</h3>
+              <p class="instruction-hint">Press the highlighted control on your controller</p>
+            </div>
+
+            <div class="walkthrough-detection">
+              <div class="detection-status" id="detection-status">
+                <span class="status-icon">⏳</span>
+                <span class="status-text">Waiting for input...</span>
+              </div>
+              <div class="detected-input" id="detected-input">
+                <!-- Shows what was detected -->
+              </div>
+            </div>
+
+            <div class="walkthrough-mapping" id="current-mapping">
+              <!-- Shows current mapped value -->
+            </div>
+
+            <div class="walkthrough-controls">
+              <button id="walkthrough-skip" class="btn btn-secondary">Skip</button>
+              <button id="walkthrough-back" class="btn btn-secondary">Back</button>
+              <button id="walkthrough-next" class="btn btn-primary" disabled>Next</button>
+            </div>
+
+            <div class="walkthrough-actions">
+              <button id="walkthrough-cancel" class="btn btn-secondary">Cancel</button>
+              <button id="walkthrough-finish" class="btn btn-primary hidden">Finish & Export</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Panel: Controller Info & Export -->
+    <div class="bottom-panel">
+      <div class="controller-info" id="controller-info">
+        <div class="info-item">
+          <span class="label">Controller:</span>
+          <span class="value" id="info-name">Not connected</span>
+        </div>
+        <div class="info-item">
+          <span class="label">ID:</span>
+          <span class="value" id="info-id">-</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Buttons:</span>
+          <span class="value" id="info-buttons">0</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Axes:</span>
+          <span class="value" id="info-axes">0</span>
+        </div>
+      </div>
+      <div class="export-controls">
+        <button id="export-btn" class="btn btn-primary">Export Full Dump</button>
+        <button id="copy-btn" class="btn btn-secondary">Copy to Clipboard</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="controllers.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
